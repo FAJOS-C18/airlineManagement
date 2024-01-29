@@ -14,7 +14,7 @@ import java.time.LocalTime;
 @Data
 public class Flight {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String flightNumber;
     private String departureCity;
