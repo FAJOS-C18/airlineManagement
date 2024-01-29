@@ -1,9 +1,6 @@
 package com.semicolon.airlineManagement.data.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -12,7 +9,8 @@ import java.time.LocalDateTime;
 @Data
 public class User {
     @Id
-    private Long id;
+    @GeneratedValue(strategy =  GenerationType.AUTO)
+    private Long user_id;
     private String firstName;
     private String lastName;
    // private BioData bioData;
