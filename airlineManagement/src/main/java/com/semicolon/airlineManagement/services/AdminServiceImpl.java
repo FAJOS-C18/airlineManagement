@@ -8,12 +8,15 @@ import com.semicolon.airlineManagement.data.repositories.FlightRepository;
 import com.semicolon.airlineManagement.dtos.request.AddFlightRequest;
 import com.semicolon.airlineManagement.dtos.request.AdminLoginRequest;
 import com.semicolon.airlineManagement.dtos.request.AdminRegisterRequest;
+import com.semicolon.airlineManagement.exceptions.FlightException;
 import com.semicolon.airlineManagement.utils.ApiResponse;
 import com.semicolon.airlineManagement.utils.GenerateApiResponse;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 @Service
 @AllArgsConstructor
@@ -37,11 +40,18 @@ public class AdminServiceImpl implements AdminService{
 
     @Override
     public ApiResponse addFlight(AddFlightRequest addFlightRequest) {
-        Flight flight = new Flight();
-        flight.setFlightType(FlightType.valueOf(addFlightRequest.getTypeFlight().toUpperCase()));
-        modelMapper.map(addFlightRequest, Flight.class);
+        if (checkIfFlightExist(addFlightRequest.getFlightNumber())) {
+            throw new FlightException(GenerateApiResponse.FLIGHT_ALREADY_EXIST);
+        }
+        Flight flight = modelMapper.map(addFlightRequest, Flight.class);
+        flight.setFlightType(FlightType.valueOf(addFlightRequest.getFlightType().toUpperCase()));
         flightRepository.save(flight);
         return GenerateApiResponse.create(GenerateApiResponse.FLIGHT_ADDED_SUCCESSFULLY);
+    }
+
+    private boolean checkIfFlightExist(String flightNumber){
+        Flight flight = flightRepository.findFlightByFlightNumber(flightNumber);
+        return flight != null;
     }
 
     @Override

@@ -9,11 +9,12 @@ import java.time.LocalDateTime;
 @Data
 public class User {
     @Id
-    @GeneratedValue(strategy =  GenerationType.AUTO)
+    @GeneratedValue(strategy =  GenerationType.IDENTITY)
     private Long user_id;
     private String firstName;
     private String lastName;
-   // private BioData bioData;
+    @OneToOne
+    private BioData bioData;
     private String password;
     private String username;
     private String phoneNumber;

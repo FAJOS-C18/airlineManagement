@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 public class BookFlight {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String locationFrom;
     private String locationTo;
@@ -21,7 +21,7 @@ public class BookFlight {
     private FlightType flightType;
     private LocalDateTime dateOfDeparture;
     private LocalDateTime returningDate;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
 }

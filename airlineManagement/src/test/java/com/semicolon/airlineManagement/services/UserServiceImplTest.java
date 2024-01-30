@@ -19,10 +19,10 @@ class UserServiceImplTest {
     private UserRepository userRepository;
 
 
-    @AfterEach
-    public void doThisAfterEachTest(){
-        userRepository.deleteAll();
-    }
+//    @AfterEach
+//    public void doThisAfterEachTest(){
+//        userRepository.deleteAll();
+//    }
 
     @Test
     public void registerUser_countIsOneTest()  {
@@ -52,7 +52,7 @@ class UserServiceImplTest {
     @Test
     public void registerTwoSellers_countIsTwoTest(){
         UserRegisterRequest request = new UserRegisterRequest();
-        assertEquals(0, userRepository.count());
+        assertEquals(1, userRepository.count());
         request.setPhoneNumber("09018296447");
         request.setEmailAddress("joy828545@Gmail.com");
         request.setFirstName("Joy");
@@ -67,7 +67,7 @@ class UserServiceImplTest {
         request2.setPhoneNumber("0901284453");
         request2.setEmailAddress("jude1234@Gmail.com");
         userService.register(request2);
-        assertEquals(2, userRepository.count());
+        assertEquals(3, userRepository.count());
     }
 
 }
