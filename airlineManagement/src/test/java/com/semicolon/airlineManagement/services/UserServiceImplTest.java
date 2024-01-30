@@ -1,6 +1,7 @@
 package com.semicolon.airlineManagement.services;
 
 import com.semicolon.airlineManagement.data.repositories.UserRepository;
+import com.semicolon.airlineManagement.dtos.request.SearchFlightRequest;
 import com.semicolon.airlineManagement.dtos.request.UserRegisterRequest;
 import com.semicolon.airlineManagement.exceptions.UserException;
 import org.junit.jupiter.api.AfterEach;
@@ -8,8 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.modelmapper.internal.bytebuddy.matcher.ElementMatchers.is;
 
 @SpringBootTest
 class UserServiceImplTest {
@@ -19,10 +22,10 @@ class UserServiceImplTest {
     private UserRepository userRepository;
 
 
-//    @AfterEach
-//    public void doThisAfterEachTest(){
-//        userRepository.deleteAll();
-//    }
+    @AfterEach
+    public void doThisAfterEachTest(){
+        userRepository.deleteAll();
+    }
 
     @Test
     public void registerUser_countIsOneTest()  {
@@ -38,7 +41,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    public void registerSeller_registerSameSellerAgain_throwExceptionTest(){
+    public void registerUser_registerSameSellerAgain_throwExceptionTest(){
         UserRegisterRequest request = new UserRegisterRequest();
         request.setPhoneNumber("09018296447");
         request.setEmailAddress("joy828545@Gmail.com");
@@ -50,7 +53,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    public void registerTwoSellers_countIsTwoTest(){
+    public void registerTwoUsers_countIsTwoTest(){
         UserRegisterRequest request = new UserRegisterRequest();
         assertEquals(1, userRepository.count());
         request.setPhoneNumber("09018296447");
@@ -68,6 +71,13 @@ class UserServiceImplTest {
         request2.setEmailAddress("jude1234@Gmail.com");
         userService.register(request2);
         assertEquals(3, userRepository.count());
+    }
+
+    @Test
+    public void testThatUserCanViewAllFlights(){
+        SearchFlightRequest flightRequest = new SearchFlightRequest();
+        flightRequest.setEmailAddress("joy828545@gmail.com");
+        assertEquals(2, userService.viewAllFlight(flightRequest).size());
     }
 
 }

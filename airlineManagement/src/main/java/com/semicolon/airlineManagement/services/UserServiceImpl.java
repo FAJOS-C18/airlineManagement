@@ -1,5 +1,6 @@
 package com.semicolon.airlineManagement.services;
 
+import com.semicolon.airlineManagement.data.models.Flight;
 import com.semicolon.airlineManagement.data.models.User;
 import com.semicolon.airlineManagement.data.repositories.UserRepository;
 import com.semicolon.airlineManagement.dtos.request.SearchFlightRequest;
@@ -13,12 +14,16 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
 
     private final ModelMapper modelMapper;
+    private final FlightService flightService;
+
     @Override
     public ApiResponse logoutUser(UserLogoutRequest userLogoutRequest) {
         return null;
@@ -37,7 +42,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public ApiResponse register(UserRegisterRequest userRegisterRequest) {
         if (checkIfUserExist(userRegisterRequest.getEmailAddress())) {
-            throw new UserException(GenerateApiResponse.USER_ALREADY_EXIST);
+            throw new   UserException(GenerateApiResponse.USER_ALREADY_EXIST);
         }
         User user = modelMapper.map(userRegisterRequest, User.class);
         userRepository.save(user);
@@ -45,8 +50,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public ApiResponse searchFlight(SearchFlightRequest searchFlightRequest) {
-        return null;
+    public List<Flight> viewAllFlight(SearchFlightRequest searchFlightRequest) {
+        checkIfUserExist(searchFlightRequest.getEmailAddress());
+        return flightService.findAll();
     }
 
     private boolean checkIfUserExist(String emailAddress) {

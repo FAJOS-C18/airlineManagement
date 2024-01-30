@@ -1,6 +1,5 @@
 package com.semicolon.airlineManagement.services;
 
-import com.semicolon.airlineManagement.data.models.FlightType;
 import com.semicolon.airlineManagement.data.repositories.AdminRepository;
 import com.semicolon.airlineManagement.dtos.request.AddFlightRequest;
 import com.semicolon.airlineManagement.exceptions.FlightException;
@@ -56,7 +55,6 @@ class AdminServiceImplTest {
         addFlightRequest.setDepartureTime(LocalTime.parse("07:10:30"));
         adminService.addFlight(addFlightRequest);
         assertThrows(FlightException.class, ()-> adminService.addFlight(addFlightRequest));
-       // assertEquals(GenerateApiResponse.create(GenerateApiResponse.FLIGHT_ADDED_SUCCESSFULLY).getHttpStatus(),adminService.addFlight(addFlightRequest).getHttpStatus());
     }
 
 
