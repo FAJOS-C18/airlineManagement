@@ -1,6 +1,7 @@
 package com.semicolon.airlineManagement.dtos.request;
 
 import com.semicolon.airlineManagement.data.models.Role;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 

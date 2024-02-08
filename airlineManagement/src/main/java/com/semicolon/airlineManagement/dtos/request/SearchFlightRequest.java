@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class SearchFlightRequest {
+    private String emailAddress;
     private String sourceStation;
     private String destinationStation;
     private String flightType;
